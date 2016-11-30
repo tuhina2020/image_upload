@@ -15,6 +15,9 @@ $app->get('/list/products', function($request, $response) {
 
 	$db = new DBHandle();
 	$sized = $db->getSizedSQL();
+	$newResponse = $response->withHeader('Content-type', 'application/json');
+	$body = $response->getBody();
+	$obj = {};
 
 	if($sized) {
 		while($row = $sized->fetch_assoc()) {
@@ -24,8 +27,9 @@ $app->get('/list/products', function($request, $response) {
 			$price = $row['price'];
 			$image_512 = base64_decode($row['image_512']);
 			$image_256 = base64_decode($row['image_256']);
+			$obj['image_'.$id] = {'id': $id, 'name': $name, 'price': $price, 'image_512': $image_512, 'image_256': $image_256};
 		}
 	}
-	$response = {'id': $id, 'name': $name, 'price': $price, 'image_512': $image_512, 'image_256': $image_256};
-    return $response;
+	$body->write($obj);
+    return $newResponse;
 });

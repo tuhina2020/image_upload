@@ -20,7 +20,7 @@ class DbConnect
     }
  
     //This method will connect to the database
-    function connect()
+    public function connect()
     {
         //Checking if any error occured while connecting
         if (mysqli_connect_errno()) {
@@ -34,8 +34,8 @@ class DbConnect
         return $this->con;
     }
 
-    function queryResult($query) {
-        $result = mysqli_query($this->con,$query);
+    public function queryResult($query) {
+        $result = mysqli_query($this->con, $query);
         return $result;
     }
  

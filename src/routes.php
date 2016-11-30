@@ -16,7 +16,7 @@ $app->get('/list/products', function($request, $response) {
 	$db = new DBHandle();
 	$sized = $db->getSizedSQL();
 	$newResponse = $response->withHeader('Content-type', 'application/json');
-	$body = $response->getBody();
+	$body = $newResponse->getBody();
 	$obj = {};
 
 	if($sized) {

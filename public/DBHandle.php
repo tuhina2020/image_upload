@@ -9,20 +9,20 @@ class DBHandle {
 		$this->redis_obj = new RedisOperation();
 	}
 
-	function createProduct($name, $price) {
+	public function createProduct($name, $price) {
 		$id = $this->sql_obj->createProduct($name, $price);
 		return $id;
 	}
 
-	function insert_image_to_redis($id, $image) {
+	public function insert_image_to_redis($id, $image) {
 		$this->redis_obj->insertImage($image, $id);
 	}
 
-	function insert_image_to_sql($id, $image) {
+	public function insert_image_to_sql($id, $image) {
 		$this->sql_obj->addImage($id, $image);
 	}
 
-	function getImageFromForm() {
+	public function getImageFromForm() {
 		if(isset($_FILES['pic'])) {
 			if($_FILES['pic']['error'] == 0) {
 				$path = $_FILES['pic']['tmp_name'];
@@ -48,21 +48,22 @@ class DBHandle {
 		return $result;
 	}
 	public function getImageRedis($key) {
-        return $this->redis_obj->getImage($key);
-    }
+    	$result = $this->redis_obj->getImage($key);
+		return $result;
+	}
 
-    public function deleteEntryRedis($key) {
-        //strip predis prefix
-        $prefix = $this->redis_obj->getOptions()->__get('prefix')->getPrefix();
-        if (substr($key, 0, strlen($prefix)) == $prefix) {
-            $key = substr($key, strlen($prefix));
-        }
-        //delete the key
-        $this->redis_obj->del($key);
-    }
+	public function deleteEntryRedis($key) {
+		//strip predis prefix
+		$prefix = $this->redis_obj->getOptions()->__get('prefix')->getPrefix();
+		if (substr($key, 0, strlen($prefix)) == $prefix) {
+		    $key = substr($key, strlen($prefix));
+		}
+		//delete the key
+		$this->redis_obj->del($key);
+	}
 
-    public function writeResizeSQL($id, $image, $size) {
-    	$this->sql_obj->addResizedSQL($id, $image, $size);
-    }
+	public function writeResizeSQL($id, $image, $size) {
+		$this->sql_obj->addResizedSQL($id, $image, $size);
+	}
 }
 ?>

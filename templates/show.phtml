@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>products</title>
+</head>
+<body>
+
+	<table border="0" cellspacing="2" cellpadding="2">
+	<tr>
+	<td>
+		<font face="Arial, Helvetica, sans-serif">Name</font>
+	</td>
+	<td>
+		<font face="Arial, Helvetica, sans-serif">Price</font>
+	</td>
+	<td>
+		<font face="Arial, Helvetica, sans-serif">Image_512</font>
+	</td>
+	<td>
+		<font face="Arial, Helvetica, sans-serif">Image_256</font>
+	</td>
+
+	</tr>
+	<?php
+		require_once '../public/DBHandle.php';
+
+		$db = new DBHandle();
+		$sized = $db->getSizedSQL();
+
+		if($sized) {
+			while($row = $sized->fetch_assoc()) {
+				//for each id
+				$id = $row['id'];
+				$name = $row['name'];
+				$price = $row['price'];
+				$image_512 = base64_decode($row['image_512']);
+				$image_256 = base64_decode($row['image_256']);
+	?>
+				<tr>
+					<td>
+						<font face="Arial, Helvetica, sans-serif"><?php echo $name; ?></font>
+					</td>
+					<td>
+						<font face="Arial, Helvetica, sans-serif"><?php echo $price; ?></font>
+					</td>
+					<td>
+						<font face="Arial, Helvetica, sans-serif"><?php echo $image_512; ?></font>
+					</td>
+					<td>
+						<font face="Arial, Helvetica, sans-serif"><?php echo $image_256; ?></font>
+					</td>
+				</tr>
+				</table>
+			}
+		}
+
+</body>
+</html>

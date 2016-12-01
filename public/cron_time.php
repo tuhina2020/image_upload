@@ -3,6 +3,7 @@
 		private $last;
 
 		function __construct() {
+			require_once dirname(__FILE__) . '/cron_job.php';
 			$this->last = time();
 		}
 
